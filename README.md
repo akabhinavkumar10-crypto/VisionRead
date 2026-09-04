@@ -464,6 +464,28 @@ on the Android Studio toolbar.
 
 ---
 
+## Story Mode (Gemini TTS)
+
+VisionRead now includes an optional Story Mode for books, stories, and long-form text. Normal scanning continues to use the existing on-device OCR and Android Text-to-Speech pipeline. Story Mode sends the detected page text to Gemini TTS and plays the generated audiobook-style narration locally.
+
+### Setup
+
+1. Create a Gemini API key in Google AI Studio.
+2. In your local `local.properties`, add:
+
+```properties
+GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE
+```
+
+3. Sync Gradle and run the app.
+4. Turn on **Story Mode**, then scan a book page.
+
+Story Mode uses `gemini-3.1-flash-tts-preview` and requests expressive narration with natural pacing, pauses, emphasis, and dialogue-aware delivery. Gemini TTS currently returns raw 24 kHz, mono, 16-bit PCM audio, which VisionRead wraps as WAV for Android playback.
+
+> **Security note:** a Gemini key embedded in a mobile APK can be extracted. The direct client-side API integration here is intended for a hackathon/prototype. A production release should put Gemini behind a server-side service and keep the key off the device.
+
+---
+
 #  Development Setup
 
 For the current prototype, the simplest setup is:
@@ -645,22 +667,6 @@ See the `LICENSE` file for the applicable license terms.
 
 ⭐ If you find the project interesting, consider starring the repository.
 
-## 📖 Story Mode (Gemini TTS)
+---
 
-VisionRead now includes an optional Story Mode for books, stories, and long-form text. Normal scanning continues to use the existing on-device OCR and Android Text-to-Speech pipeline. Story Mode sends the detected page text to Gemini TTS and plays the generated audiobook-style narration locally.
 
-### Setup
-
-1. Create a Gemini API key in Google AI Studio.
-2. In your local `local.properties`, add:
-
-```properties
-GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE
-```
-
-3. Sync Gradle and run the app.
-4. Turn on **Story Mode**, then scan a book page.
-
-Story Mode uses `gemini-3.1-flash-tts-preview` and requests expressive narration with natural pacing, pauses, emphasis, and dialogue-aware delivery. Gemini TTS currently returns raw 24 kHz, mono, 16-bit PCM audio, which VisionRead wraps as WAV for Android playback.
-
-> **Security note:** a Gemini key embedded in a mobile APK can be extracted. The direct client-side API integration here is intended for a hackathon/prototype. A production release should put Gemini behind a server-side service and keep the key off the device.

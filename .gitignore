@@ -1,0 +1,7 @@
+# Project exclude paths
+/.gradle/
+/build/
+# Local Android/Gradle configuration
+local.properties
+.idea/
+*.iml

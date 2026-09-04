@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg">#0A0C10</color>
+    <color name="surface">#12151C</color>
+    <color name="card">#1A1F2E</color>
+    <color name="accent">#00E5FF</color>
+    <color name="success">#070D0A</color>
+    <color name="warn">#FFB800</color>
+    <color name="text">#E8EAF0</color>
+    <color name="muted">#6B7280</color>
+    <color name="danger">#FF3B30</color>
+    <color name="btn_action">#00E5FF</color>
+    <color name="btn_repeat">#7C4DFF</color>
+    <color name="btn_emergency">#FF2A4D</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+</resources>

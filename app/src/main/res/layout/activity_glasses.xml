@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#D1DFFB"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- ── HEADER ── -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="monospace"
+                android:text="     SMART GLASSES MODE"
+                android:textColor="#0D1010"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/exitGlassesBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:text="Switch to Brain"
+                android:textColor="#05080D"
+                android:textSize="11sp"
+                android:background="@drawable/btn_secondary"
+                android:stateListAnimator="@null" />
+        </LinearLayout>
+
+        <!-- ── GLASSES CONNECTION STATUS CARD ── -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/card_bg"
+            android:padding="14dp"
+            android:layout_marginBottom="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/glassesStatusIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:text="📡"
+                    android:textSize="20sp"
+                    android:gravity="center"
+                    android:background="@drawable/status_icon_bg"
+                    android:layout_marginEnd="10dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/glassesStatusTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Waiting for Brain Phone..."
+                        android:textColor="#060709"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/glassesIpLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="My IP: Reading..."
+                        android:textColor="#00FF88"
+                        android:textSize="12sp"
+                        android:fontFamily="monospace"
+                        android:layout_marginTop="2dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/glassesStreamingStats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Frames Sent: 0 | Speaker: Ready"
+                android:textColor="#030304"
+                android:textSize="11sp"
+                android:fontFamily="monospace"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+
+        <!-- ── CAMERA STREAM PREVIEW ── -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:layout_marginBottom="14dp"
+            android:background="#034BFB">
+
+            <androidx.camera.view.PreviewView
+                android:id="@+id/glassesCameraPreview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/glassesCamBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|center_horizontal"
+                android:layout_marginTop="8dp"
+                android:text="● STREAMING LIVE CAMERA TO BRAIN"
+                android:textColor="#00FF88"
+                android:textSize="10sp"
+                android:fontFamily="monospace"
+                android:background="@drawable/badge_bg"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp" />
+        </FrameLayout>
+
+        <!-- ── SIMULATED PHYSICAL GLASSES BUTTONS ── -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PHYSICAL BUTTON CONTROLS (SIMULATOR)"
+            android:textColor="#121928"
+            android:textSize="10sp"
+            android:fontFamily="monospace"
+            android:letterSpacing="0.1"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Button 1: Action / Capture -->
+
+        <!-- Button 2: Repeat -->
+        <Button
+            android:id="@+id/btnGlassesAction"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/btn_primary"
+            android:contentDescription="Button 1: Action and Capture text"
+            android:stateListAnimator="@null"
+            android:text="  BUTTON 1 — ACTION / CAPTURE"
+            android:textColor="#0F0808"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnGlassesRepeat"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="  BUTTON 2 — REPEAT LAST"
+            android:textColor="#020307"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:background="@drawable/btn_secondary"
+            android:layout_marginBottom="10dp"
+            android:stateListAnimator="@null"
+            android:contentDescription="Button 2: Repeat last announcement" />
+
+        <!-- Button 3: Emergency / Help -->
+        <Button
+            android:id="@+id/btnGlassesEmergency"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="  BUTTON 3 — EMERGENCY / HELP"
+            android:textColor="#0D0303"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:background="@drawable/badge_bg"
+            android:backgroundTint="#FF2A4D"
+            android:layout_marginBottom="12dp"
+            android:stateListAnimator="@null"
+            android:contentDescription="Button 3: Emergency help" />
+
+        <!-- Info note -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=" Hardware Buttons Tip: Hardware Volume Down simulates Button 1 (Capture), Volume Up simulates Button 2 (Repeat). Long-press buttons for secondary actions."
+            android:textColor="#6B7280"
+            android:textSize="11sp"
+            android:lineSpacingMultiplier="1.4" />
+
+    </LinearLayout>
+</ScrollView>

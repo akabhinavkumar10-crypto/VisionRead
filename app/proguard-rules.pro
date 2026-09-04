@@ -1,0 +1,2 @@
+-keep class com.visionread.app.** { *; }
+-keep class com.google.mlkit.** { *; }

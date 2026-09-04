@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FBFCFD"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- ── CAMERA AREA ── -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:layout_marginBottom="12dp">
+
+            <androidx.camera.view.PreviewView
+                android:id="@+id/cameraPreview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/remoteCameraPreview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:visibility="gone" />
+
+            <com.visionread.app.ScanOverlayView
+                android:id="@+id/scanOverlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/cameraPlaceholder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#37074FEB"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="67dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="Tap Start or say &quot;Scan&quot;"
+                    android:textColor="#0B0B0D"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/camStatusBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|center_horizontal"
+                android:layout_marginTop="10dp"
+                android:text="SCANNING..."
+                android:textColor="#060F10"
+                android:textSize="11sp"
+                android:fontFamily="monospace"
+                android:background="@drawable/arrow_cell_active"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="5dp"
+                android:visibility="gone" />
+
+            <ProgressBar
+                android:id="@+id/confidenceBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_gravity="bottom"
+                android:progressDrawable="@drawable/confidence_progress"
+                android:max="100"
+                android:progress="0"
+                android:visibility="gone" />
+        </FrameLayout>
+
+        <!-- ── STATUS CARD ── -->
+        <LinearLayout
+            android:id="@+id/statusCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/card_bg"
+            android:padding="14dp"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:id="@+id/statusIcon"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:text="💤"
+                android:textSize="22sp"
+                android:gravity="center"
+                android:background="@drawable/status_icon_bg"
+                android:layout_marginEnd="12dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/statusTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ready"
+                    android:textColor="#01040F"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/statusDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Say &quot;Scan&quot; or tap Start Scanning to begin."
+                    android:textColor="#03060B"
+                    android:textSize="12sp"
+                    android:layout_marginTop="2dp"
+                    android:lineSpacingMultiplier="1.4" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- ── VOICE STATUS BAR ── -->
+        <TextView
+            android:id="@+id/voiceStatusLabel"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:text="  Tap here to speak a command"
+            android:textColor="#020809"
+            android:textSize="13sp"
+            android:fontFamily="monospace"
+            android:gravity="center"
+            android:background="@drawable/btn_voice"
+            android:layout_marginBottom="10dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="Voice command button" />
+
+        <!-- ── QUICK ACTION BUTTONS (NAVIGATION / GLASSES PANEL) ── -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+
+            <Button
+                android:id="@+id/navModeBtn"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:text="  Road Mode: OFF"
+                android:textColor="#141E1F"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:background="@drawable/btn_secondary"
+                android:layout_marginEnd="6dp"
+                android:stateListAnimator="@null" />
+
+            <Button
+                android:id="@+id/glassesPanelToggleBtn"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:text="  Glasses: Phone"
+                android:textColor="#04080F"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:background="@drawable/btn_secondary"
+                android:layout_marginStart="6dp"
+                android:stateListAnimator="@null" />
+        </LinearLayout>
+
+        <!-- ── STORY MODE ── -->
+        <Button
+            android:id="@+id/storyModeBtn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="📖  Story Mode: OFF"
+            android:textColor="#05080B"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:background="@drawable/btn_secondary"
+            android:layout_marginBottom="10dp"
+            android:stateListAnimator="@null"
+            android:contentDescription="Toggle Story Mode for audiobook-style reading" />
+
+        <!-- ── GUIDANCE ARROWS CARD ── -->
+        <LinearLayout
+            android:id="@+id/guidanceCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/card_bg"
+            android:padding="14dp"
+            android:gravity="center"
+            android:layout_marginBottom="10dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MOVE PHONE IN THIS DIRECTION"
+                android:textColor="#6B7280"
+                android:textSize="10sp"
+                android:fontFamily="monospace"
+                android:letterSpacing="0.12"
+                android:layout_marginBottom="10dp" />
+
+            <GridLayout
+                android:id="@+id/arrowGrid"
+                android:layout_width="135dp"
+                android:layout_height="135dp"
+                android:columnCount="3"
+                android:rowCount="3">
+
+                <TextView android:id="@+id/arrow_ul" android:text="↖" style="@style/ArrowCell" />
+                <TextView android:id="@+id/arrow_u"  android:text="↑" style="@style/ArrowCell" />
+                <TextView android:id="@+id/arrow_ur" android:text="↗" style="@style/ArrowCell" />
+                <TextView android:id="@+id/arrow_l"  android:text="←" style="@style/ArrowCell" />
+                <TextView android:id="@+id/arrow_c"  android:text="🎯" style="@style/ArrowCell" />
+                <TextView android:id="@+id/arrow_r"  android:text="→" style="@style/ArrowCell" />
+                <TextView android:id="@+id/arrow_dl" android:text="↙" style="@style/ArrowCell" />
+                <TextView android:id="@+id/arrow_d"  android:text="↓" style="@style/ArrowCell" />
+                <TextView android:id="@+id/arrow_dr" android:text="↘" style="@style/ArrowCell" />
+            </GridLayout>
+        </LinearLayout>
+
+        <!-- ── OCR RESULT CARD ── -->
+        <LinearLayout
+            android:id="@+id/resultCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/result_card_bg"
+            android:padding="14dp"
+            android:layout_marginBottom="10dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+
+                <View
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:background="@drawable/live_dot"
+                    android:layout_marginEnd="6dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="DETECTED TEXT"
+                    android:textColor="#07140E"
+                    android:textSize="10sp"
+                    android:fontFamily="monospace"
+                    android:letterSpacing="0.12" />
+
+                <ImageButton
+                    android:id="@+id/copyBtn"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@android:drawable/ic_menu_share"
+                    android:background="@drawable/icon_btn_bg"
+                    android:contentDescription="Copy text"
+                    android:layout_marginEnd="6dp" />
+
+                <ImageButton
+                    android:id="@+id/replayBtn"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@android:drawable/ic_media_play"
+                    android:background="@drawable/icon_btn_bg"
+                    android:contentDescription="Replay reading" />
+            </LinearLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="120dp">
+                <TextView
+                    android:id="@+id/ocrResultText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Awaiting text detection..."
+                    android:textColor="#06070B"
+                    android:textSize="13sp"
+                    android:lineSpacingMultiplier="1.6" />
+            </ScrollView>
+
+            <LinearLayout
+                android:id="@+id/ttsProgressLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:paddingTop="10dp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="6dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="⟩ READING ALOUD"
+                        android:textColor="#07090D"
+                        android:textSize="10sp"
+                        android:fontFamily="monospace" />
+
+                    <TextView
+                        android:id="@+id/ttsPercentLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0%"
+                        android:textColor="#151B26"
+                        android:textSize="10sp"
+                        android:fontFamily="monospace" />
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/ttsProgressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:progressDrawable="@drawable/tts_progress"
+                    android:max="100"
+                    android:progress="0" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- ── MAIN CONTROLS ── -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp">
+
+            <Button
+                android:id="@+id/startBtn"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:text="  Start Scanning"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:background="@drawable/btn_primary"
+                android:layout_marginEnd="8dp"
+                android:stateListAnimator="@null" />
+
+            <Button
+                android:id="@+id/settingsBtn"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:text="⚙"
+                android:textSize="18sp"
+                android:textColor="#0A0C0F"
+                android:background="@drawable/btn_secondary"
+                android:layout_marginEnd="8dp"
+                android:stateListAnimator="@null"
+                android:contentDescription="Settings" />
+
+            <Button
+                android:id="@+id/stopBtn"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:text="⏹"
+                android:textSize="18sp"
+                android:textColor="#9CA3AF"
+                android:background="@drawable/btn_secondary"
+                android:stateListAnimator="@null"
+                android:visibility="gone"
+                android:contentDescription="Stop" />
+        </LinearLayout>
+
+        <!-- ── POST-SCAN CONTROLS ── -->
+        <LinearLayout
+            android:id="@+id/postScanControls"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/restartBtn"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:text="  Scan Again"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:background="@drawable/btn_primary"
+                android:layout_marginEnd="8dp"
+                android:stateListAnimator="@null" />
+
+            <Button
+                android:id="@+id/backToMenuBtn"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:text="  Main Menu"
+                android:textColor="#0C0F14"
+                android:textSize="14sp"
+                android:background="@drawable/btn_secondary"
+                android:stateListAnimator="@null" />
+        </LinearLayout>
+
+        <!-- ── SMART GLASSES CONNECTION & DIAGNOSTICS PANEL ── -->
+        <LinearLayout
+            android:id="@+id/smartGlassesPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/card_bg"
+            android:padding="14dp"
+            android:layout_marginBottom="10dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  SMART GLASSES PAIRING &amp; REMOTE"
+                android:textColor="#030505"
+                android:textSize="10sp"
+                android:fontFamily="monospace"
+                android:letterSpacing="0.1"
+                android:layout_marginBottom="10dp" />
+
+            <!-- Launch Simulator on this device -->
+            <Button
+                android:id="@+id/launchSimulatorBtn"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:text=" Run As Smart Glasses (Device B)"
+                android:textColor="#090D0B"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:background="@drawable/btn_secondary"
+                android:layout_marginBottom="10dp"
+                android:stateListAnimator="@null" />
+
+            <!-- Remote IP & Port Input -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+
+                <EditText
+                    android:id="@+id/glassesIpEdit"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:hint="Glasses IP (e.g. 192.168.1.15)"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#6B7280"
+                    android:textSize="12sp"
+                    android:fontFamily="monospace"
+                    android:background="#12151C"
+                    android:paddingHorizontal="10dp"
+                    android:inputType="text" />
+
+                <Button
+                    android:id="@+id/connectGlassesBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="44dp"
+                    android:text="Connect"
+                    android:textColor="#000000"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:background="@drawable/btn_primary"
+                    android:layout_marginStart="6dp"
+                    android:stateListAnimator="@null" />
+            </LinearLayout>
+
+            <!-- Transport & Camera / Audio Switch -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+
+                <Button
+                    android:id="@+id/transportModeBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:text="Transport: Wi-Fi"
+                    android:textColor="#080B10"
+                    android:textSize="11sp"
+                    android:background="@drawable/btn_secondary"
+                    android:layout_marginEnd="4dp"
+                    android:stateListAnimator="@null" />
+
+                <Button
+                    android:id="@+id/cameraSourceToggleBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:text="Cam: Phone"
+                    android:textColor="#090B0D"
+                    android:textSize="11sp"
+                    android:background="@drawable/btn_secondary"
+                    android:layout_marginStart="4dp"
+                    android:stateListAnimator="@null" />
+            </LinearLayout>
+
+            <!-- ── DIAGNOSTICS & DEMO STATUS SCREEN ── -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  SYSTEM &amp; HACKATHON DIAGNOSTICS"
+                android:textColor="#070909"
+                android:textSize="10sp"
+                android:fontFamily="monospace"
+                android:letterSpacing="0.1"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#12151C"
+                android:padding="10dp">
+
+                <TextView android:id="@+id/diagConn"   android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Connection: DISCONNECTED"   android:textColor="#6B7280" android:textSize="11sp" android:fontFamily="monospace" />
+                <TextView android:id="@+id/diagTrans"  android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Transport: Wi-Fi"           android:textColor="#6B7280" android:textSize="11sp" android:fontFamily="monospace" android:layout_marginTop="2dp" />
+                <TextView android:id="@+id/diagCam"    android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Camera: PHONE"              android:textColor="#6B7280" android:textSize="11sp" android:fontFamily="monospace" android:layout_marginTop="2dp" />
+                <TextView android:id="@+id/diagAudio"  android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Audio: PHONE SPEAKER"       android:textColor="#6B7280" android:textSize="11sp" android:fontFamily="monospace" android:layout_marginTop="2dp" />
+                <TextView android:id="@+id/diagOcr"    android:layout_width="match_parent" android:layout_height="wrap_content" android:text="OCR Engine: READY"          android:textColor="#00FF88" android:textSize="11sp" android:fontFamily="monospace" android:layout_marginTop="2dp" />
+                <TextView android:id="@+id/diagSign"   android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Road Sign Detection: READY" android:textColor="#00FF88" android:textSize="11sp" android:fontFamily="monospace" android:layout_marginTop="2dp" />
+                <TextView android:id="@+id/diagHazard" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Hazard Detection: READY"    android:textColor="#00FF88" android:textSize="11sp" android:fontFamily="monospace" android:layout_marginTop="2dp" />
+                <TextView android:id="@+id/diagVoice"  android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Voice Control: READY"       android:textColor="#00FF88" android:textSize="11sp" android:fontFamily="monospace" android:layout_marginTop="2dp" />
+                <TextView android:id="@+id/diagBtn"    android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Buttons: NOT CONNECTED"     android:textColor="#6B7280" android:textSize="11sp" android:fontFamily="monospace" android:layout_marginTop="2dp" />
+                <TextView android:id="@+id/diagPerf"   android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Processing: 0 FPS | Latency: 0 ms" android:textColor="#00E5FF" android:textSize="11sp" android:fontFamily="monospace" android:layout_marginTop="4dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- ── SETTINGS PANEL ── -->
+        <LinearLayout
+            android:id="@+id/settingsPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/card_bg"
+            android:padding="14dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="⚙  SETTINGS"
+                android:textColor="#090B0F"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:fontFamily="monospace"
+                android:letterSpacing="0.1"
+                android:layout_marginBottom="12dp" />
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="10dp">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Speech Rate" android:textColor="#0D101A" android:textSize="13sp" />
+                <SeekBar android:id="@+id/rateSlider" android:layout_width="110dp" android:layout_height="wrap_content"
+                    android:max="15" android:progress="3" android:progressTint="#00E5FF" android:thumbTint="#00E5FF" />
+                <TextView android:id="@+id/rateVal" android:layout_width="40dp" android:layout_height="wrap_content"
+                    android:text="0.85×" android:textColor="#00E5FF" android:textSize="11sp"
+                    android:fontFamily="monospace" android:gravity="end" />
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="10dp">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Volume" android:textColor="#0A0A0D" android:textSize="13sp" />
+                <SeekBar android:id="@+id/volSlider" android:layout_width="110dp" android:layout_height="wrap_content"
+                    android:max="10" android:progress="10" android:progressTint="#00E5FF" android:thumbTint="#00E5FF" />
+                <TextView android:id="@+id/volVal" android:layout_width="40dp" android:layout_height="wrap_content"
+                    android:text="100%" android:textColor="#00E5FF" android:textSize="11sp"
+                    android:fontFamily="monospace" android:gravity="end" />
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Capture Threshold" android:textColor="#0B0C10" android:textSize="13sp" />
+                <SeekBar android:id="@+id/threshSlider" android:layout_width="110dp" android:layout_height="wrap_content"
+                    android:max="10" android:progress="4" android:progressTint="#00E5FF" android:thumbTint="#00E5FF" />
+                <TextView android:id="@+id/threshVal" android:layout_width="40dp" android:layout_height="wrap_content"
+                    android:text="40%" android:textColor="#00E5FF" android:textSize="11sp"
+                    android:fontFamily="monospace" android:gravity="end" />
+            </LinearLayout>
+
+            <!-- Voice commands help -->
+            <View android:layout_width="match_parent" android:layout_height="1dp"
+                android:background="#090D12" android:layout_marginVertical="12dp" />
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="  VOICE COMMANDS"
+                android:textColor="#0B0E0F" android:textSize="10sp" android:textStyle="bold" android:fontFamily="monospace"
+                android:letterSpacing="0.1" android:layout_marginBottom="8dp" />
+
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="&quot;Scan&quot; / &quot;Read text&quot; — Start OCR\n&quot;Stop&quot; — Stop scanning\n&quot;Repeat&quot; — Repeat last speech\n&quot;What is ahead?&quot; / &quot;Describe surroundings&quot;\n&quot;Start navigation&quot; / &quot;Stop navigation&quot;\n&quot;Detect signs&quot; / &quot;Stop detection&quot;\n&quot;Connect glasses&quot; / &quot;Disconnect glasses&quot;\n&quot;Use phone camera&quot; / &quot;Use glasses camera&quot;\n&quot;Faster&quot; / &quot;Slower&quot; / &quot;Help&quot;"
+                android:textColor="#121418" android:textSize="12sp" android:lineSpacingMultiplier="1.7" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
